@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xyura — Bio Links</title>
+  <meta name="description" content="Personal bio links page with refined glassmorphism style" />
+
+  <!-- Preload Assets -->
+  <link rel="preload" as="image" href="bg.jpg" />
+  <link rel="preload" as="image" href="avatar.jpg" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --foreground-rgb: 255, 255, 255;
+      --background-start-rgb: 10, 15, 28;
+      --background-end-rgb: 4, 7, 15;
+    }
+
+    body {
+      color: rgb(var(--foreground-rgb));
+      background: rgb(var(--background-end-rgb));
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism Styles */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.37);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.32);
+      box-shadow: 0 14px 36px 0 rgba(0, 0, 0, 0.45);
+    }
+
+    /* Floating Toast */
+    #toast {
+      transform: translateY(-100px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-white/20 selection:text-white">
+
+  <!-- Toast Notification -->
+  <div class="fixed top-5 inset-x-0 z-50 flex justify-center px-4">
+    <div id="toast" class="glass-card px-4 py-2.5 rounded-full flex items-center gap-2 text-xs font-medium text-white shadow-2xl border border-cyan-400/30">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"></path>
+      </svg>
+      <span>Tautan profil berhasil disalin ke clipboard!</span>
+    </div>
+  </div>
+
+  <main class="relative min-h-screen text-white flex flex-col items-center justify-between px-4 py-10 selection:bg-white/20">
+    
+    <!-- Background Image & Atmospheric Gradients -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+      <img src="bg.jpg" alt="Background" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000" />
+      <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(8, 12, 24, 0.76) 0%, rgba(10, 16, 32, 0.46) 38%, rgba(4, 7, 18, 0.94) 100%);"></div>
+    </div>
+
+    <!-- Content Container -->
+    <div class="relative z-10 w-full max-w-md flex flex-col items-center">
+      
+      <!-- Top Action: Share Button -->
+      <div class="w-full flex justify-end mb-4">
+        <button id="shareBtn" aria-label="Salin tautan profil" class="glass-card px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs text-slate-300 hover:text-white transition-colors active:scale-95">
+          <svg id="shareIcon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
+            <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
+          </svg>
+          <span id="shareText">Bagikan</span>
+        </button>
+      </div>
+
+      <!-- Profile Header (Avatar, Name, Tagline, Status Badge) -->
+      <div class="text-center mb-8">
+        <div class="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden p-[2px] glass-card shadow-xl group">
+          <img src="avatar.jpg" alt="mr.xyura Avatar" class="w-full h-full rounded-full object-cover object-center transition-transform duration-500 group-hover:scale-105" />
+        </div>
+        
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-1 text-white">mr.xyura</h1>
+        <p class="text-sm md:text-base text-slate-300 font-medium">Turning logic into automation.</p>
+        
+        <div class="mt-2.5 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider glass-card text-cyan-300">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>WEB_APP_DEVELOPER</span>
+        </div>
+      </div>
+
+      <!-- Links List -->
+      <div class="w-full space-y-3.5 mb-8">
+        
+        <!-- 1. WhatsApp -->
+        <a href="https://wa.me/6283110367363?text=halo" target="_blank" rel="noopener noreferrer" class="glass-card group block w-full p-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/15 shrink-0 group-hover:border-white/30 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div class="flex-1 text-left min-w-0">
+              <h2 class="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors truncate">WhatsApp</h2>
+              <p class="text-xs text-slate-300/80 truncate">Chat langsung kontak mr.xyura</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </div>
+        </a>
+
+        <!-- 2. GitHub -->
+        <a href="https://github.com/Xyuraa" target="_blank" rel="noopener noreferrer" class="glass-card group block w-full p-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/15 shrink-0 group-hover:border-white/30 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-slate-200">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+              </svg>
+            </div>
+            <div class="flex-1 text-left min-w-0">
+              <h2 class="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors truncate">GitHub</h2>
+              <p class="text-xs text-slate-300/80 truncate">@Xyuraa repositori source code &amp; proyek</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </div>
+        </a>
+
+        <!-- 3. Instagram -->
+        <a href="https://www.instagram.com/xyura011" target="_blank" rel="noopener noreferrer" class="glass-card group block w-full p-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/15 shrink-0 group-hover:border-white/30 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-fuchsia-400">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+            </div>
+            <div class="flex-1 text-left min-w-0">
+              <h2 class="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors truncate">Instagram</h2>
+              <p class="text-xs text-slate-300/80 truncate">@xyura011 profil &amp; update dev</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </div>
+        </a>
+
+        <!-- 4. YouTube -->
+        <a href="https://www.youtube.com/@Xyura_Mods01" target="_blank" rel="noopener noreferrer" class="glass-card group block w-full p-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/15 shrink-0 group-hover:border-white/30 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-red-400">
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+                <path d="m10 15 5-3-5-3z"></path>
+              </svg>
+            </div>
+            <div class="flex-1 text-left min-w-0">
+              <h2 class="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors truncate">YouTube</h2>
+              <p class="text-xs text-slate-300/80 truncate">@Xyura_Mods01 video &amp; showcase project</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center text-xs text-slate-400/80 py-4">
+      <p>© 2026 mr.xyura. Turning logic into automation.</p>
+    </footer>
+
+  </main>
+
+  <!-- Interactive Share & Copy Script -->
+  <script>
+    const shareBtn = document.getElementById("shareBtn");
+    const shareText = document.getElementById("shareText");
+    const toast = document.getElementById("toast");
+    let toastTimeout = null;
+
+    shareBtn.addEventListener("click", async () => {
+      const url = window.location.href;
+      
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(url);
+        } else {
+          const textarea = document.createElement("textarea");
+          textarea.value = url;
+          textarea.style.position = "fixed";
+          textarea.style.left = "-9999px";
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textarea);
+        }
+
+        // Button feedback
+        shareText.textContent = "Tersalin! ✔";
+        shareBtn.classList.add("border-cyan-400/50", "text-cyan-300");
+
+        // Show Toast
+        toast.classList.add("show");
+
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove("show");
+          shareText.textContent = "Bagikan";
+          shareBtn.classList.remove("border-cyan-400/50", "text-cyan-300");
+        }, 2600);
+      } catch (err) {
+        console.error("Gagal menyalin tautan:", err);
+      }
+    });
+  </script>
+</body>
+</html>
